@@ -36,7 +36,7 @@ const fade = (run, target, vars) => operation(run, (finish) => {
   return () => tween.kill();
 });
 
-export function setupIntro({ closeMenu, onOpen = () => {}, onClose = () => {} }) {
+export function setupIntro({ closeMenu, onOpen = () => {}, onReveal = () => {}, onClose = () => {} }) {
   const loader = document.querySelector('#loader');
   const shell = document.querySelector('#site-shell');
   const skipLink = document.querySelector('.skip-link');
@@ -210,6 +210,7 @@ export function setupIntro({ closeMenu, onOpen = () => {}, onClose = () => {} })
     await hold(run, 1.6);
     if (!alive(run)) return;
     setStage('home');
+    onReveal();
     gsap.set(heroContent, { opacity: 0, y: 16 });
     await Promise.all([
       fade(run, loader, { opacity: 0, duration: 1.25 }),

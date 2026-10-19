@@ -2,6 +2,7 @@ import './styles.css';
 import { content } from './content.js';
 import { setupMotion } from './motion.js';
 import { setupIntro } from './intro.js';
+import { setupHeroBackground } from './hero-background.js';
 
 const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -73,14 +74,14 @@ document.querySelector('#app').innerHTML = `
     </nav>
 
     <main id="main" tabindex="-1">
-      <!-- 01 · Hero：底图、神光、蝴蝶分层，视频留给下一阶段。 -->
+      <!-- 01 · Hero：草地镜头静音循环，静帧作为加载与播放失败时的底图。 -->
       <section id="hero" class="hero" aria-labelledby="hero-title" data-chapter="hero">
         <div class="hero-backdrop" aria-hidden="true">
           <img class="hero-landscape" src="${asset('hero-grassland.jpg')}" alt="" width="1280" height="720" fetchpriority="high" />
+          <video id="hero-background-video" class="hero-video" data-hero-video data-hero-src="${asset('hero-ambient.mp4')}" poster="${asset('hero-grassland.jpg')}" muted playsinline loop preload="none" tabindex="-1"></video>
           <div class="hero-shade"></div>
-          <video data-media="godrays" src="${asset('hero-godrays.mp4')}" poster="${asset('hero-grassland.jpg')}" data-composition="full-scene" muted playsinline loop preload="none" tabindex="-1" hidden></video>
-          <video data-media="butterflies" src="${asset('butterflies-loop.mp4')}" muted playsinline loop preload="none" tabindex="-1" hidden></video>
         </div>
+        <button type="button" class="hero-background-toggle" data-toggle-background aria-controls="hero-background-video" aria-label="暂停背景动画">暂停背景</button>
         <div class="hero-content">
           <p class="eyebrow"><span class="tiny-star">✦</span> FROM CURIOSITY TO POSSIBILITY</p>
           <div class="hero-name"><h1 id="hero-title">${escapeHTML(content.name)}</h1><span aria-hidden="true">He Xuan</span></div>
@@ -166,6 +167,13 @@ document.querySelectorAll('[data-copy]').forEach((button) => {
 });
 
 const motion = setupMotion();
-const disposeIntro = setupIntro({ closeMenu, onOpen: motion.pause, onClose: motion.resume });
-if (document.querySelector('#loader').hidden) motion.resume();
-if (import.meta.hot) import.meta.hot.dispose(() => { motion.dispose(); disposeIntro(); observer.disconnect(); });
+const background = setupHeroBackground();
+const resumeHomepage = () => { motion.resume(); background.resume(); };
+const disposeIntro = setupIntro({
+  closeMenu,
+  onOpen: () => { motion.pause(); background.pause(); },
+  onReveal: background.resume,
+  onClose: resumeHomepage,
+});
+if (document.querySelector('#loader').hidden) resumeHomepage();
+if (import.meta.hot) import.meta.hot.dispose(() => { disposeIntro(); background.dispose(); motion.dispose(); observer.disconnect(); });

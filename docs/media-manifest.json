@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "两段真实素材已接入连续开场；GSAP 过渡、Skip 和静帧降级已实现",
+  "status": "两段真实素材已接入连续开场，主页草地背景已启用静音循环。",
   "supplied": [
     {
       "sourceFilename": "视频+1.mp4",
@@ -43,5 +43,16 @@
     "butterflies-loop.mp4 独立蝴蝶叠层仍为占位；草地视频已自带蝴蝶",
     "pumpkin-spawn.mp4 南瓜车视频仍为占位"
   ],
-  "composition": "hero-godrays.mp4 为完整草地合成镜头，非透明光束叠层。开场单次播放后保留尾帧；蝴蝶阶段延续同一背景，仅增加三只月光白 SVG 前景蝴蝶。"
+  "composition": "hero-godrays.mp4 为完整草地合成镜头，非透明光束叠层。开场单次播放后保留尾帧；蝴蝶阶段延续同一背景，仅增加三只月光白 SVG 前景蝴蝶。",
+  "heroLoop": {
+    "webPath": "public/assets/hero-ambient.mp4",
+    "source": "public/assets/hero-godrays.mp4",
+    "webBytes": 1154929,
+    "durationSeconds": 3.25,
+    "fps": 24,
+    "crossfadeSeconds": 0.75,
+    "audio": "none",
+    "generator": "scripts/create-hero-loop.py",
+    "playback": "开场淡出或跳过后静音循环；离屏、后台和开场重播时暂停；支持手动暂停与减少动态效果。"
+  }
 }

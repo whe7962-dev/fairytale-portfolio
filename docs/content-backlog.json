@@ -59,5 +59,5 @@
     "不展示未提供的学校、城市、账号链接、二维码、照片和简历入口"
   ],
   "designReference": "https://me.dufengyun.xyz/",
-  "motionPhase": "连续开场、Lenis 主页平滑滚动及 ScrollTrigger 首次章节入场已实现，支持实时减少动态效果设置、键盘与手机原生触摸。独立蝴蝶及南瓜视频待真实素材；实体手机验收与上线部署待后续。"
+  "motionPhase": "连续开场、Lenis 平滑滚动、ScrollTrigger 章节入场与主页草地静音循环已实现，支持减少动态效果和背景暂停。已部署 GitHub Pages。独立蝴蝶及南瓜视频待真实素材；实体手机验收待后续。"
 }
