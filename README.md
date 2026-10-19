@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-已有本地项目时，在项目目录执行 `npm ci` 和 `npm run dev` 即可。仓库为私有时，克隆需要登录有访问权限的 GitHub 账号。
+已有本地项目时，在项目目录执行 `npm ci` 和 `npm run dev` 即可。源码仓库已公开，可以直接克隆。
 
 打开终端显示的地址，通常是 **http://127.0.0.1:5173/**。请通过 Vite 访问，不要直接双击 `index.html`。
 
@@ -25,6 +25,16 @@ npm run preview
 ```
 
 预览命令通常使用 **http://127.0.0.1:4173/**。端口占用时以终端实际输出为准。
+
+## 在线访问与部署
+
+网站地址：[何选 · AI 产品学习与实践](https://whe7962-dev.github.io/fairytale-portfolio/)。
+
+GitHub Pages 通过 `.github/workflows/deploy-pages.yml` 自动部署。每次向 `main` 推送更新后，工作流使用 Node.js 24、`npm ci` 和 `npm run build:pages` 构建，只上传 `dist/` 中的网站文件。可在仓库 Actions 页面查看构建和部署结果，也可手动运行工作流。
+
+`build:pages` 将 Vite 的 `base` 设置为 `/fairytale-portfolio/`，使脚本、样式、图片和视频都从正确的子目录加载。本地开发仍使用根路径；要预览 Pages 构建，可运行 `npm run build:pages`、`npm run preview -- --base=/fairytale-portfolio/`，再访问 **http://127.0.0.1:4173/fairytale-portfolio/**。
+
+网站部署不包含 `source-assets/` 中的原始视频；原件仍保留在公开源码仓库中。
 
 ## 六个区块
 
