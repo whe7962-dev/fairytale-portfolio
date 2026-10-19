@@ -7,7 +7,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const motionConfig = Object.freeze({
   smoothScroll: true,
-  duration: 1.25,
+  wheelLerp: 0.18,
+  anchorDuration: 0.9,
   revealDuration: 0.9,
   revealDistance: 18,
   ease: 'sine.inOut',
@@ -39,6 +40,7 @@ export function setupMotion() {
   let lenis;
   let context;
   let active = false;
+  let navigating = false;
   let disposed = false;
   let pageAvailable = true;
   let refreshFrame = 0;
@@ -61,6 +63,26 @@ export function setupMotion() {
     catch { return null; }
   }
 
+  function completeNavigation(target, canCorrect = true) {
+    if (!active || disposed || !lenis || !navigating) return;
+    // Fonts, an expanded details block or a resize may move the destination
+    // while the anchor animation runs. Settle against its current geometry.
+    const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+    const destination = Math.min(lenis.limit, Math.max(0, window.scrollY + target.getBoundingClientRect().top - padding - margin));
+    if (canCorrect && Math.abs(window.scrollY - destination) > 1) {
+      lenis.scrollTo(target, {
+        duration: 0.25,
+        easing: (t) => 1 - (1 - t) ** 3,
+        onComplete: () => completeNavigation(target, false),
+      });
+      return;
+    }
+    navigating = false;
+    revealDestination(target);
+    target.focus({ preventScroll: true });
+  }
+
   function queueRefresh() {
     if (!active || disposed || preference.matches || refreshFrame) return;
     refreshFrame = requestAnimationFrame(() => {
@@ -72,6 +94,7 @@ export function setupMotion() {
   }
 
   function teardown() {
+    navigating = false;
     cancelAnimationFrame(refreshFrame);
     refreshFrame = 0;
     gsap.ticker.remove(tick);
@@ -90,8 +113,10 @@ export function setupMotion() {
     if (!active || disposed || preference.matches || context) return;
     if (motionConfig.smoothScroll) {
       lenis = new Lenis({
-        duration: motionConfig.duration,
-        easing: cinematicEase,
+        // Wheel events arrive repeatedly. A slow-start duration curve restarts
+        // on every event and makes trackpads stall, then catch up after release.
+        // Damping follows the input immediately; timed easing is for anchors.
+        lerp: motionConfig.wheelLerp,
         smoothWheel: true,
         syncTouch: false,
         autoRaf: false,
@@ -161,14 +186,25 @@ export function setupMotion() {
     if (!target) return;
     event.preventDefault();
     if (url.hash !== location.hash) history.pushState(history.state, '', url.hash);
+    navigating = true;
     lenis.scrollTo(target, {
       immediate: link.classList.contains('skip-link'),
-      onComplete: () => {
-        if (!active || disposed) return;
-        revealDestination(target);
-        target.focus({ preventScroll: true });
-      },
+      duration: motionConfig.anchorDuration,
+      easing: cinematicEase,
+      onComplete: () => completeNavigation(target),
     });
+  });
+
+  // User input takes over immediately, including at the page boundaries where
+  // a wheel target can equal the current position and leave an anchor running.
+  const cancelNavigation = () => {
+    if (!navigating || !lenis) return;
+    navigating = false;
+    lenis.stop();
+    lenis.start();
+  };
+  ['wheel', 'touchstart', 'pointerdown'].forEach((type) => {
+    window.addEventListener(type, cancelNavigation, { capture: true, passive: true, signal: events.signal });
   });
 
   // Reveal a focused block immediately. Native navigation keys can interrupt
@@ -179,11 +215,13 @@ export function setupMotion() {
   listen(document, 'keydown', (event) => {
     if (!lenis || !active || event.defaultPrevented || event.target.isContentEditable || event.target.closest('input, textarea, select')) return;
     if (lenis.isScrolling === 'smooth' && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
+      navigating = false;
       lenis.stop();
       lenis.start();
     }
   });
   const syncHistory = () => {
+    cancelNavigation();
     lenis?.scrollTo(window.scrollY, { immediate: true });
     const target = currentHashTarget();
     if (target) revealDestination(target);
