@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+<defs><radialGradient id="bg"><stop stop-color="#294a34"/><stop offset="1" stop-color="#0f2519"/></radialGradient><radialGradient id="pumpkin"><stop stop-color="#c9a227" stop-opacity=".23"/><stop offset="1" stop-color="#c9a227" stop-opacity=".01"/></radialGradient></defs><path fill="url(#bg)" d="M0 0h800v1000H0z"/>
+<ellipse cx="400" cy="730" rx="240" ry="25" fill="#091c12" opacity=".7"/>
+<!-- GOLD IS EXCLUSIVELY THE PUMPKIN CARRIAGE ITSELF. -->
+<g stroke="#C9A227" fill="none" stroke-width="2" opacity=".88"><ellipse cx="401" cy="515" rx="161" ry="168" fill="url(#pumpkin)"/><ellipse cx="401" cy="515" rx="113" ry="168"/><ellipse cx="401" cy="515" rx="54" ry="168"/><path d="M253 471c69-22 223-22 294 0M260 576c82 32 198 32 280 0M290 654h224M275 667h252M311 681h180M350 352c8-43 95-43 103 0M383 322c-26-32 23-58 36-31 15 31-20 22-13 5"/>
+<path fill="#183322" d="M357 592v-105a44 44 0 0 1 88 0v105Z"/><path d="M400 450v142M359 503h85"/><circle cx="316" cy="700" r="59"/><circle cx="316" cy="700" r="49"/><circle cx="506" cy="700" r="59"/><circle cx="506" cy="700" r="49"/><circle cx="316" cy="700" r="7"/><circle cx="506" cy="700" r="7"/>
+<path d="M316 642v116M258 700h116M275 659l82 82M275 741l82-82M506 642v116M448 700h116M465 659l82 82M465 741l82-82M373 700h75M565 698c76-3 86-52 60-59-23-6-28 20-10 21M245 650c-77-14-91-74-56-87 35-13 46 30 23 33"/>
+<path d="m397 344-3-18 9-7 10 7-3 18M256 437l-24-24m-3-16v32m-14-16h28M550 435l23-22m3-16v32m-14-16h28"/></g>
+<g stroke="#a8b5a0" opacity=".16" fill="none"><path d="M70 820c35-69 31-128 10-190M730 820c-35-69-31-128-10-190M115 855h570"/><circle cx="400" cy="500" r="270"/></g></svg>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0C1A14" />
+    <meta name="description" content="何选的个人网站，求职方向为 AI 产品岗位。记录 AI 方法、智能体、知识库与产品工具的学习，以及后续的项目实践。" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>何选 · AI 产品学习与实践</title>
+    <style>html.intro-pending { background: #000; } html.intro-pending #app { visibility: hidden; }</style>
+    <script>
+      // Paint black before the application loads, without trapping a failed boot.
+      (() => {
+        const mode = new URLSearchParams(location.search).get('intro');
+        let seen = false;
+        try { seen = sessionStorage.getItem('hexuan.intro.seen.v1') === '1'; } catch {}
+        if (mode === 'preview' || (!matchMedia('(prefers-reduced-motion: reduce)').matches && (mode === 'play' || (!seen && !location.hash && mode !== 'skip')))) {
+          document.documentElement.classList.add('intro-pending');
+          setTimeout(() => document.documentElement.classList.remove('intro-pending'), 5000);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>请开启 JavaScript 以浏览此个人介绍页面。</noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "status": "两段真实素材已接入连续开场；GSAP 过渡、Skip 和静帧降级已实现",
+  "supplied": [
+    {
+      "sourceFilename": "视频+1.mp4",
+      "originalPath": "source-assets/loader-wand-original.mp4",
+      "originalSha256": "d22a6009281b40bef1dec776cf7288643244ddef24d57ef58bb7f553377f25d3",
+      "sourceBytes": 12045163,
+      "webPath": "public/assets/loader-wand.mp4",
+      "webBytes": 2224717,
+      "posterPath": "public/assets/loader-wand-poster.jpg",
+      "posterTimeSeconds": 2.6,
+      "streams": [
+        "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 4445 kb/s, 24 fps, 24 tbr, 12288 tbn (default)"
+      ],
+      "filters": "fps=24",
+      "audio": "removed",
+      "autoplay": false,
+      "watermark": "原始 AI 生成标记保留",
+      "playback": "开场时由 JavaScript 静音单次播放；HTML autoplay 属性未启用"
+    },
+    {
+      "sourceFilename": "视频+2.mp4",
+      "originalPath": "source-assets/grassland-original.mp4",
+      "originalSha256": "6bd5787cdc80517fc472ecc8629b99e73529bf09090f8f37b9da577f3c2a2a96",
+      "sourceBytes": 10143200,
+      "webPath": "public/assets/hero-godrays.mp4",
+      "webBytes": 1678895,
+      "posterPath": "public/assets/hero-grassland.jpg",
+      "posterTimeSeconds": 0.8,
+      "streams": [
+        "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 3353 kb/s, 24 fps, 24 tbr, 12288 tbn (default)"
+      ],
+      "filters": "fps=24,colorbalance=rs=-0.01:gs=0.015:bs=0.02:rm=-0.035:gm=0.02:bm=0.09:rh=-0.18:gh=0.02:bh=0.32:pl=1,eq=saturation=0.76:brightness=-0.012:contrast=1.02",
+      "audio": "removed",
+      "autoplay": false,
+      "watermark": "原始 AI 生成标记保留",
+      "playback": "开场时由 JavaScript 静音单次播放；HTML autoplay 属性未启用"
+    }
+  ],
+  "pending": [
+    "butterflies-loop.mp4 独立蝴蝶叠层仍为占位；草地视频已自带蝴蝶",
+    "pumpkin-spawn.mp4 南瓜车视频仍为占位"
+  ],
+  "composition": "hero-godrays.mp4 为完整草地合成镜头，非透明光束叠层。开场单次播放后保留尾帧；蝴蝶阶段延续同一背景，仅增加三只月光白 SVG 前景蝴蝶。"
+}
